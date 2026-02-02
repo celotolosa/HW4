@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: d8a46576b4723e343a0224221ab85376
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _pipeSpanwerPrefab: {fileID: 3375859456171590302, guid: 60ca32531ebd5a2478911e0bb7f4ce5d, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
