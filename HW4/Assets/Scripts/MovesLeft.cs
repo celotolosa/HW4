@@ -7,17 +7,17 @@ public class MovesLeft : MonoBehaviour
     [SerializeField] private Transform _transform;
     private UI _ui;
 
-    void Start()
+    /*void Start()
     {
         Locator.Player.Point += HandlePlayerPass;
-    }
+    }*/
 
     void Update()
     {
         _transform.Translate(Vector2.left * _moveSpeed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    /*private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag.Equals("Player"))
         {
@@ -28,5 +28,5 @@ public class MovesLeft : MonoBehaviour
     public void HandlePlayerPass()
     {
         _ui.HandlePlayerPass();
-    }
+    }*/
 }

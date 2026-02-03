@@ -20,7 +20,6 @@ public class PipeSpawner : MonoBehaviour
 
     private void NextSpawn()
     {
-        Debug.Log("Hit -5!");
         float randY = Random.Range(-8.15f, -1.8f);
         Vector3 spawnPosition = new Vector3(3.54f, randY, 0);
         Instantiate(_pipeSpawnerPrefab, spawnPosition, Quaternion.identity);

@@ -1,19 +1,32 @@
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] Rigidbody2D _rb;
     [SerializeField] private float _jumpForce = 3.8f;
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _jumpClip;
+    [SerializeField] private AudioClip _deathClip;
     
     public delegate void PointDelegate();
     public event PointDelegate Point;
-    void Start()
+
+    public delegate void PlayerDiedDelegate();
+    public event PlayerDiedDelegate Died;
+
+    private bool _inputEnabled = true;
+    void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _audioSource = GetComponent<AudioSource>();
     }
+
 
     void Update()
     {
+        if (!_inputEnabled) return;
+        
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
@@ -24,19 +37,45 @@ public class Player : MonoBehaviour
     {
         _rb.velocity = Vector2.zero;
         _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+
+        _audioSource.PlayOneShot(_jumpClip);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag.Equals("Counter"))
+        if (other.gameObject.tag.Equals("Counter"))
         {
             Debug.Log("Add point to high score and current score, check if the current score > high score.");
-            Pass();
+            Point?.Invoke();
         }
     }
 
-    public void Pass()
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        Point?.Invoke();
+        if (other.gameObject.tag.Equals("Pipe"))
+        {
+            Die();
+            _audioSource.PlayOneShot(_deathClip);
+        }
     }
+
+    private void Die()
+    {
+        if (!_inputEnabled) return;
+
+        _inputEnabled = false;
+        _rb.velocity = Vector2.zero;
+        _rb.simulated = false;
+
+        Died?.Invoke();
+    }
+
+    public void ResetPlayer()
+    {
+        _inputEnabled = true;
+        _rb.simulated = true;
+        _rb.velocity = Vector2.zero;
+    }
+
+    
 }
